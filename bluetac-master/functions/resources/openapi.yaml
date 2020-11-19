@@ -1,0 +1,635 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: BlueTAC API
+  description: BlueTAC  API to support  application operations.
+  termsOfService: http://BlueTAC.com
+  contact:
+    name: BlueTAC API Team
+paths:
+  /suppliers:
+    get:
+      tags:
+        - Supplier Details
+      description: Returns Supplier(freelancer) object list (userId of user need to fetch from
+        authentication step)
+      operationId: getSuppliers
+      parameters:
+        - name: supplier_id
+          in: query
+          description: To specifically filter suppliers by supplier id.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: supplier object response. This will return all suppliers unless specifically specified. Getting all suppliers should only available for admin users. End users should be able to get their supplier account or associated accounts only. Check authentication context before send response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: "#/components/schemas/Supplier"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Supplier"
+    post:
+      tags:
+        - Supplier Details
+      description: Create Supplier object in server side and return created account object.
+      operationId: createSupplier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Supplier"
+        description: Supplier object that need to create in server side.
+        required: true
+      responses:
+        "200":
+          description: created supplier response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Supplier"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+  /suppliers/{supplier_id}/image:
+    post:
+      tags:
+        - Supplier Details
+      parameters:
+        - name: supplier_id
+          in: path
+          description: Value identification number to update image of record.
+          required: true
+          schema:
+            type: string
+      description: update image object in server side. We are adding specific resource to add API as image uploading is time consuming task which can run outside account create process.
+      operationId: uploadImageToAccount
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK. Image updated.
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Supplier Details
+      parameters:
+        - name: supplier_id
+          in: path
+          description: Value identification number to retrieve image of record.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':           # Response
+          description: OK
+          content:       # Response body
+            image/*:     # Media type
+             schema: 
+               type: string
+               format: binary
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+  /suppliers/{supplier_id}/qualifications:
+    post:
+      tags:
+        - Supplier Details 
+      parameters:
+        - name: supplier_id
+          in: path
+          description: Value identification number to update image of record.
+          required: true
+          schema:
+            type: string
+      description: update image object in server side. We are adding specific resource to add API as image uploading is time consuming task which can run outside account create process.
+      operationId: addSupplierQualification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QualificationData"
+        description: Qualification object that need to create in server side.
+        required: true
+      responses:
+        "200":
+          description: created qualification response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QualificationData"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+    get:
+      tags:
+        - Supplier Details
+      parameters:
+        - name: supplier_id
+          in: path
+          description: Value identification number to retrieve image of record.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: created qualification response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QualificationData"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+  /consumers:
+    get:
+      tags:
+        - Consumer Details
+      description: Returns Consumer(buyer) object list (userId of user need to fetch from
+        authentication step)
+      operationId: getConsumers
+      parameters:
+        - name: supplier_id
+          in: query
+          description: To specifically filter suppliers by supplier id.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: supplier object response. This will return all suppliers unless specifically specified. Getting all suppliers should only available for admin users. End users should be able to get their supplier account or associated accounts only. Check authentication context before send response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: "#/components/schemas/Consumer"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Consumer"
+    post:
+      tags:
+        - Consumer Details
+      description: Create Consumer object in server side and return created account object.
+      operationId: createConsumer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Consumer"
+        description: Supplier object that need to create in server side.
+        required: true
+      responses:
+        "200":
+          description: created supplier response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Supplier"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+  /consumers/{supplier_id}/image:
+    post:
+      tags:
+        - Consumer Details
+      parameters:
+        - name: supplier_id
+          in: path
+          description: Value identification number to update image of record.
+          required: true
+          schema:
+            type: string
+      description: update image object in server side. We are adding specific resource to add API as image uploading is time consuming task which can run outside account create process.
+      operationId: uploadImageToConsumer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK. Image updated.
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Consumer Details
+      parameters:
+        - name: supplier_id
+          in: path
+          description: Value identification number to retrieve image of record.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':           # Response
+          description: OK
+          content:       # Response body
+            image/*:     # Media type
+             schema: 
+               type: string
+               format: binary
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+  /issues:
+    get:
+      tags:
+        - Issue Details
+      description: Returns issue list by user(userId of user need to fetch from
+        authentication step)
+      operationId: getIssues
+      parameters:
+        - name: supplier_id
+          in: query
+          description: To specifically filter issues by supplier id.
+          required: false
+          schema:
+            type: string
+        - name: consumer_id
+          in: query
+          description: To specifically filter issues by consumer id.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: This will return lit of issues created by user or assigned to user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: "#/components/schemas/Issue"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Issue"
+    post:
+      tags:
+        - Issue Details
+      description: Create Issue object in server side and return created issue object.
+      operationId: createIssue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Issue"
+        description: Issue object that need to create in server side.
+        required: true
+      responses:
+        "200":
+          description: created issue response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Issue"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+  /issues/{issue_id}:
+    get:
+      tags:
+        - Issue Details
+      description: Returns issue list by user(userId of user need to fetch from
+        authentication step)
+      operationId: getIssuesByID
+      parameters:
+        - name: issue_id
+          in: path
+          description: Value identification number to update image of record.
+          required: true
+          schema:
+            type: string
+            description: update image object in server side. We are adding specific resource to add API as image uploading is time consuming task which can run outside account create process.
+      responses:
+        "200":
+          description: This will return lit of issues created by user or assigned to user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: "#/components/schemas/Issue"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Issue"
+    put:
+      tags:
+        - Issue Details
+      description: Create Issue object in server side and return created issue object.
+      operationId: updateIssueByID
+      parameters:
+        - name: issue_id
+          in: path
+          description: Value identification number to update image of record.
+          required: true
+          schema:
+            type: string
+            description: update issue by id.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Issue"
+        description: Issue object that need to create in server side.
+        required: true
+      responses:
+        "200":
+          description: created issue response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Issue"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+
+servers:
+  - url: http://bluetac.com/api
+components:
+  schemas:
+    PersonalInformation:
+      type: object
+      properties:
+        property_name:
+         type: string
+        property_value:
+         type: string
+    ContactDetails:
+      type: object
+      properties:
+        property_name:
+         type: string
+        property_value:
+         type: string
+    Supplier:
+      type: object
+      required:
+        - supplier_id 
+      properties:
+        supplier_id:
+          type: string
+          format: uuid
+          description: The identifier of the linked account
+        user_name:
+          type: string
+          description: The linked email address that use as user name in the system
+        display_name:
+          type: string
+        job_details:
+          type: object
+          items:
+            $ref: "#/components/schemas/JobInfo"
+        contact_details:
+          type: object
+          items:
+            $ref: "#/components/schemas/ContactInfo"
+        qualifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Qualification"
+        personal_information:
+          type: array
+          items:
+            $ref: "#/components/schemas/PersonalInformation"
+        status:
+          type: string
+          enum: [active, not_active, pending]
+        type:
+          type: string
+          enum: [individual, organization]
+        interested_vendors:
+          type: string
+          enum: [sysco, aruba, juniper, test]
+        payment_reference:
+          type: string
+          description: The linked payment info object with payment details
+        terms_agreement:
+          type: string
+        description:
+          type: string
+    Consumer:
+      type: object
+      required:
+        - consumer_id 
+      properties:
+        supplier_id:
+          type: string
+          format: uuid
+          description: The identifier of the linked account
+        display_name:
+          type: string
+        contact_details:
+          type: object
+          items:
+            $ref: "#/components/schemas/ContactInfo"
+        personal_information:
+          type: array
+          items:
+            $ref: "#/components/schemas/PersonalInformation"
+        status:
+          type: string
+          enum: [active, not_active, pending]
+        type:
+          type: string
+          enum: [individual, organization]
+        interested_vendors:
+          type: string
+          enum: [sysco, aruba, juniper, test]
+        payment_reference:
+          type: string
+          description: The linked payment info object with payment details
+        terms_agreement:
+          type: string
+        description_text:
+          type: string
+    JobInfo:
+      type: object
+      required:
+        - company_name 
+      properties:
+        company_name:
+          type: string
+        location_city:
+          type: string
+        location_country:
+          type: string
+        title:
+          type: string
+        worked_period_start:
+          type: string
+        worked_period_end:
+          type: string
+        worked_period_curretny_worked:
+          type: boolean
+        description:
+          type: string
+    Issue:
+      type: object
+      required:
+        - issue_id 
+      properties:
+        issue_id:
+          type: string
+          format: uuid
+          description: The identifier of the linked account
+        display_name:
+          type: string
+        comments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Comment"
+        status:
+          type: string
+          enum: [open, assigned, in-progress, resolved]
+    ErrorModel:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    Qualification:
+      type: object
+      required:
+        - qualification_id 
+      properties:
+        is_active:
+          type: boolean
+        is_verified:
+          type: boolean
+        qualification_id:
+          type: string
+          description: Certification id number
+        qualification_provider_name:
+          type: string
+          description: The official provider of the qualification
+        qualification_name:
+          type: string
+          description: The official name of the qualification
+        issued_date:
+          type: string
+        expiary_date:
+          type: string
+    QualificationData:
+      allOf:
+        - $ref: '#/components/schemas/Qualification'
+        - type: object
+      properties:
+        value_description:
+          type: string
+          description: A rich text description of the value selected
+    Comment:
+      type: object
+      required:
+        - comment_id 
+      properties:
+        is_visible:
+          type: boolean
+        comment_id:
+          type: string
+          description: comment id number
+        comment_provider_name:
+          type: string
+          description: The provider of the comment
+        comment_date_time:
+          type: string
+          description: The date and time comment added
+        comment_text:
+          type: string
+          description: comment in string
+    ContactInfo:
+      type: object
+      properties:
+        postal_address:
+          type: object
+          items:
+            $ref: "#/components/schemas/Address"
+        billing_address:
+          type: object
+          items:
+            $ref: "#/components/schemas/Address"
+        phone_number_1:
+         type: string
+        phone_number_2:
+         type: string
+    Address:
+      type: object
+      properties:
+         address_line_1:
+          type: string
+         address_line2:
+          type: string
+         city:
+          type: string
+         state_or_province:
+          type: string
+         zip_code:
+          type: string
+         country:
+          type: string

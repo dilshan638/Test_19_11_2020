@@ -1,0 +1,67 @@
+{
+  "name": "socialape-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "axios": "^0.18.0",
+    "clsx": "^1.1.1",
+    "cross-fetch": "^3.0.6",
+    "dayjs": "^1.8.11",
+    "jwt-decode": "^2.2.0",
+    "lodash.merge": "^4.6.2",
+    "markdown-to-jsx": "^7.0.1",
+    "mui-datatables": "^3.5.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-helmet": "^6.1.0",
+    "react-redux": "^6.0.1",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.8",
+    "react-select-country-list": "^2.2.1",
+    "react-swipeable-views": "^0.14.0-alpha.0",
+    "react-swipeable-views-utils": "^0.14.0-alpha.0",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "dev": "concurrently \"npm run start\" \" cd functions && npm run serve\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "shared-config"
+    ],
+    "rules": {
+      "additional-rule": "warn"
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.js?(x)"
+        ],
+        "rules": {
+          "jsx-quotes": [
+            "error",
+            "prefer-single"
+          ]
+        }
+      }
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "proxy": "https://asia-northeast1-bluetac-pro.cloudfunctions.net/api"
+}
